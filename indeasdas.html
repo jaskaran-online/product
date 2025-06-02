@@ -1,0 +1,83 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cin7orders.com/creatrix_checkout.js"></script>
+<script>
+$(document).ready(function(){
+ if($('.ins-tile[aria-label="Contact Us"]').length > 0){
+ 	$("#ec-instantsite").append('<iframe title="Contact Us Form" src="https://form.jotform.com/61743856182563?parentURL=https%3A%2F%2Fcreatrixsolutions.com%2Fcontact-us-for-support-or-questions%2F&amp;jsForm=true" allow="geolocation; microphone; camera; fullscreen" name="61743856182563" id="61743856182563" style="width: 10px; min-width: 100%; display: block; overflow: hidden; height: 1334px; border: medium;" scrolling="no" bis_size="{&quot;x&quot;:171,&quot;y&quot;:161,&quot;w&quot;:1257,&quot;h&quot;:539,&quot;abs_x&quot;:171,&quot;abs_y&quot;:161}" bis_id="fr_1li13uz41pdwdgvoziexci" bis_depth="0" bis_chainid="1"></iframe>');
+ }
+});
+$("body").append("<footer id='ecwid_footer_custom'></footer>");
+$("#tile-footer-MNure7").remove();
+$("#ecwid_footer_custom").load( "https://cin7orders.com/ecwid_creatrix_footer.php" );
+</script>
+
+<script>
+function initializeEcwidScriptWithDelay(retryCount = 5, delay = 500) {
+  if (typeof Ecwid !== 'undefined' && Ecwid.OnAPILoaded) {
+    Ecwid.OnAPILoaded.add(function() {
+      Ecwid.OnPageLoaded.add(function(page) {
+        if (page.type === "PRODUCT") {
+          function addCustomButton(productLinks) {
+            const currentURL = window.location.href;
+            const targetProductId = Object.keys(productLinks).find(id => currentURL.includes(id));
+
+            if (targetProductId) {
+              const priceSection = document.querySelector('.product-details__product-price-row');
+              if (priceSection && !document.getElementById('custom-action-button')) {
+                const customButton = document.createElement('button');
+                customButton.innerText = 'Add to Cart';
+                customButton.id = 'custom-action-button';
+                customButton.style.marginBottom = '10px';
+                customButton.onclick = () => {
+                  window.location.href = productLinks[targetProductId];
+                };
+                priceSection.insertAdjacentElement('afterend', customButton);
+              }
+            }
+          }
+
+          function initializeButtonScript() {
+            const productLinks = {
+              'https://creatrixsolutions.company.site/products/portable-NIR-sauna-lamp-and-tent': 'https://creatrixsolutions.company.site/products/#!/~/cart/create=JTdCJTIycHJvZHVjdHMlMjIlM0ElNUIlN0IlMjJpZCUyMiUzQSUyMjY5NjU1MjMxOSUyMiUyQyUyMnF1YW50aXR5JTIyJTNBJTIyMSUyMiUyQyUyMm9wdGlvbnMlMjIlM0ElN0IlN0QlN0QlMkMlN0IlMjJpZCUyMiUzQSUyMjY5NjU1MzI3MyUyMiUyQyUyMnF1YW50aXR5JTIyJTNBJTIyMSUyMiUyQyUyMm9wdGlvbnMlMjIlM0ElN0IlN0QlN0QlNUQlN0Q%3D',
+              'https://creatrixsolutions.company.site/products/home-nir-sauna-hot-yoga': 'https://creatrixsolutions.company.site/products/#!/~/cart/create=JTdCJTIycHJvZHVjdHMlMjIlM0ElNUIlN0IlMjJpZCUyMiUzQSUyMjY5NjU1MTYxMSUyMiUyQyUyMnF1YW50aXR5JTIyJTNBJTIyMSUyMiUyQyUyMm9wdGlvbnMlMjIlM0ElN0IlN0QlN0QlMkMlN0IlMjJpZCUyMiUzQSUyMjY5NjU1MzI3MyUyMiUyQyUyMnF1YW50aXR5JTIyJTNBJTIyMSUyMiUyQyUyMm9wdGlvbnMlMjIlM0ElN0IlN0QlN0QlNUQlN0Q%3D'
+            };
+
+            addCustomButton(productLinks);
+
+            const observer = new MutationObserver(() => {
+              addCustomButton(productLinks);
+            });
+
+            observer.observe(document.body, { childList: true, subtree: true });
+          }
+
+          initializeButtonScript();
+        }
+      });
+    });
+  } else if (retryCount > 0) {
+    // Retry after a delay
+    setTimeout(() => {
+      initializeEcwidScriptWithDelay(retryCount - 1, delay);
+    }, delay);
+  } else {
+    console.error("Ecwid API is not loaded or unavailable after multiple attempts.");
+  }
+}
+initializeEcwidScriptWithDelay();
+console.log("checking.. js code working")
+let productSku = $(".product-details__product-sku");
+console.log('productSku', productSku);
+let skuContent = productSku.text().replaceAll("SKU  ","");
+console.log('skuContent', skuContent)
+if(skuContent === '1709'){
+    let target = $(".product-details-module__content");
+    console.log(target)
+    target.append(`
+        <div class="shipping-note">
+        <p><b>Note:</b> If you are shipping outside the USA, please add either Export Tent and Lamp (120V) or Export Tent and Lamp (240V) to your cart to receive a shipping quote.</p>
+        <p>You could create a button that says 120-Volt and one that says 240-Volt</p>
+        </div>`)
+}
+</script>
+
