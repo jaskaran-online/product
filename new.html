@@ -10,7 +10,7 @@
     },
     shippingNotes: {
       1708: {
-        note: "<b style='margin-top:10px;background: #f2f2f2;padding: 10px;'>Note: For international shipping, please add either <a href='https://tinyurl.com/TentandLamp120v'>Tent and Lamp (120V)</a> or <a href='https://tinyurl.com/TentandLamp240v'>Tent and Lamp (240V)</a> to your cart to receive a shipping quote.</b>",
+        note: "<b>Note: For international shipping, please add either <a href='https://tinyurl.com/TentandLamp120v'>Tent and Lamp (120V)</a> or <a href='https://tinyurl.com/TentandLamp240v'>Tent and Lamp (240V)</a> to your cart to receive a shipping quote.</b>",
         className: "shipping-note-1708",
         selector:
           "#ecwid-products > div > div > div > div:nth-child(1) > div > div:nth-child(2) > div > div.ec-store.ec-store__product-page.ec-store__product-page--696553769.ec-store__product-page--c0.ec-store__product-page--c173270501.ec-store__product-page--c173270755 > div > div > div.product-details.product-details--layout-sidebar-right.product-details--description-basic > div.product-details__sidebar > div.product-details__product-options.details-product-options > div",
@@ -52,7 +52,7 @@
             const t = $(n.selector).first();
             if (t.length && !t.find(`.${n.className}`).length) {
               t.append(
-                `<div class="shipping-note ${n.className}">${n.note}</div>`
+                `<div style='margin-top:10px;background: #f2f2f2;padding: 10px;' class="shipping-note ${n.className}">${n.note}</div>`
               );
             }
           }
