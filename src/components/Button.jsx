@@ -1,16 +1,23 @@
-function Button({color = "orange", paddingX = "10px", paddingY = "5px",handleButtonClick, children}){
-    
-    const ButtonStyle = {
-        backgroundColor: color,
-        padding: `${paddingY} ${paddingX}`,
-    }
+function Button({
+  color = "orange",
+  paddingX = "10px",
+  paddingY = "5px",
+  handleButtonClick,
+  children,
+}) {
+  const ButtonStyle = {
+    backgroundColor: color,
+    padding: `${paddingY} ${paddingX}`,
+  };
 
-    
-    return (
-      <button style={ButtonStyle} onClick={() => handleButtonClick("Clicked on " + color + " button")}>
-        {children}
-      </button>
-    );
+  return (
+    <button
+      style={ButtonStyle}
+      onClick={() => handleButtonClick("Clicked on " + color + " button")}
+    >
+      {children}
+    </button>
+  );
 }
 
 export default Button;

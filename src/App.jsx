@@ -1,36 +1,11 @@
-// import './App.css'
-import Button from './components/Button'
-import Text from './components/Text'
-function App() {
+import DemoUseEffect from "./components/DemoUseEffect";
+import YouTubeVideos from "./components/YouTubeVideos";
 
-    const handleClick = (message) => {
-      alert(message);
-    };
-
+export default function App() {
   return (
     <div>
-      <h1>Hello World</h1>
-      <Button handleButtonClick={handleClick}>
-        {/* Button component Self Closing Tag */}
-        Click me on default button
-      </Button>
-
-      <Button color="red" paddingX="20px" paddingY="10px" handleButtonClick={handleClick}>
-        {/* Button component Self Closing Tag */}
-        Click me on red button
-      </Button>
-
-      <Button color="blue" handleButtonClick={handleClick}>
-        {/* Button component Self Closing Tag */}
-        <Text color="white">Click me on blue button</Text>
-      </Button>
-
-      <Button color="green" handleButtonClick={handleClick}>
-        {/* Button component Self Closing Tag */}
-        Click me on green button
-      </Button>
+      {/* <DemoUseEffect /> */}
+      <YouTubeVideos />
     </div>
   );
 }
-
-export default App

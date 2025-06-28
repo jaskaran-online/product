@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Basic HTML5 Semantic Elements Examples" />
+    <meta name="author" content="HTML5 Learning" />
+    <title>Basic Semantic Elements</title>
+    <style>
+      header,
+      nav,
+      main,
+      aside,
+      footer {
+        position: relative;
+      }
+      header::before {
+        content: "Header";
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #f0f0f0;
+      }
+
+      nav::before {
+        content: "Nav";
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #f0f0f0;
+      }
+
+      main::before {
+        content: "Main";
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #f0f0f0;
+      }
+
+      aside::before {
+        content: "Aside";
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #f0f0f0;
+      }
+
+      footer::before {
+        content: "Footer";
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER: Site header with main title -->
+    <header>
+      <h1>My Blog</h1>
+      <p>Welcome to my personal blog about web development</p>
+    </header>
+
+    <!-- NAV: Main navigation -->
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- MAIN: Main content area -->
+    <main>
+      <!-- SECTION: Blog posts section -->
+      <section id="blog-posts">
+        <h2>Latest Blog Posts</h2>
+
+        <!-- ARTICLE: Individual blog post -->
+        <article>
+          <header>
+            <h3>Learning HTML5 Semantic Elements</h3>
+            <p>
+              Published on
+              <time datetime="2024-01-15">January 15, 2024</time> by John Doe
+            </p>
+          </header>
+
+          <p>
+            HTML5 introduced many new <strong>semantic elements</strong> that
+            help create more meaningful and accessible web pages.
+          </p>
+
+          <p>Some key benefits include:</p>
+          <ul>
+            <li>Better accessibility for screen readers</li>
+            <li>Improved SEO rankings</li>
+            <li>Cleaner, more maintainable code</li>
+          </ul>
+
+          <figure>
+            <img
+              src="https://via.placeholder.com/300x200"
+              alt="HTML5 semantic structure diagram"
+            />
+            <figcaption>
+              HTML5 semantic structure provides better document outline
+            </figcaption>
+          </figure>
+
+          <p>
+            Remember to use <mark>semantic elements</mark> appropriately based
+            on content meaning, not appearance.
+          </p>
+
+          <footer>
+            <p>Tags: <em>HTML5, Semantic, Web Development</em></p>
+          </footer>
+        </article>
+
+        <!-- ARTICLE: Another blog post -->
+        <article>
+          <header>
+            <h3>CSS Grid vs Flexbox</h3>
+            <p>
+              Published on
+              <time datetime="2024-01-10">January 10, 2024</time> by Jane Smith
+            </p>
+          </header>
+
+          <p>
+            Both CSS Grid and Flexbox are powerful layout tools, but they serve
+            different purposes.
+          </p>
+
+          <section>
+            <h4>When to use CSS Grid</h4>
+            <p>
+              CSS Grid is perfect for
+              <strong>two-dimensional layouts</strong> where you need control
+              over both rows and columns.
+            </p>
+          </section>
+
+          <section>
+            <h4>When to use Flexbox</h4>
+            <p>
+              Flexbox excels at <strong>one-dimensional layouts</strong> -
+              either in a row or column direction.
+            </p>
+          </section>
+
+          <blockquote>
+            <p>
+              "The best layout tool is the one that solves your specific problem
+              most elegantly."
+            </p>
+            <cite>- Web Development Best Practices</cite>
+          </blockquote>
+
+          <footer>
+            <p>Tags: <em>CSS, Grid, Flexbox, Layout</em></p>
+          </footer>
+        </article>
+      </section>
+
+      <!-- SECTION: About section -->
+      <section id="about">
+        <h2>About This Blog</h2>
+        <p>
+          This blog covers various topics related to modern web development,
+          including HTML5, CSS3, and JavaScript.
+        </p>
+
+        <details>
+          <summary>More about the author</summary>
+          <p>
+            I'm a web developer with 5 years of experience in frontend
+            technologies. I love sharing knowledge and helping others learn.
+          </p>
+        </details>
+      </section>
+    </main>
+
+    <!-- ASIDE: Sidebar content -->
+    <aside>
+      <h2>Quick Links</h2>
+      <nav>
+        <ul>
+          <li><a href="#latest">Latest Posts</a></li>
+          <li><a href="#popular">Popular Posts</a></li>
+          <li><a href="#archive">Archive</a></li>
+        </ul>
+      </nav>
+
+      <section>
+        <h3>Newsletter</h3>
+        <p>Subscribe to get the latest updates:</p>
+        <form>
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+          <button type="submit">Subscribe</button>
+        </form>
+      </section>
+
+      <section>
+        <h3>Popular Tags</h3>
+        <p>
+          <a href="#html">HTML5</a> | <a href="#css">CSS3</a> |
+          <a href="#js">JavaScript</a> |
+          <a href="#react">React</a>
+        </p>
+      </section>
+    </aside>
+
+    <!-- FOOTER: Site footer -->
+    <footer>
+      <p>&copy; 2024 My Blog. All rights reserved.</p>
+      <address>
+        Contact: <a href="mailto:contact@myblog.com">contact@myblog.com</a
+        ><br />
+        Follow us on <a href="https://twitter.com/myblog">Twitter</a>
+      </address>
+
+      <nav>
+        <ul>
+          <li><a href="#privacy">Privacy Policy</a></li>
+          <li><a href="#terms">Terms of Service</a></li>
+          <li><a href="#sitemap">Sitemap</a></li>
+        </ul>
+      </nav>
+    </footer>
+  </body>
+</html>

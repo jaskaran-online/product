@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="keywords" content="HTML, CSS, JavaScript" />
+    <meta name="description" content="This is a form" />
+    <meta name="author" content="Harsh" />
+    <!-- <meta http-equiv="refresh" content="3" /> -->
+
+    <title>Form</title>
+    <link rel="stylesheet" href="custom.css" />
+    <script src="custom.js"></script>
+  </head>
+  <body>
+    <h1>Contact Form</h1>
+    <p>ਸਤ ਸ੍ਰੀ ਅਕਾਲ! ਇਹ ਫਾਰਮ ਭਰੋ ਜੀ।</p>
+
+    <img
+      src="https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
+      width="100px"
+      alt="lady with camera"
+    />
+
+    <img src="MainBefore.jpg" width="100px" alt="lady with camera" />
+
+    <img src="images/photo.avif" alt="lady with camera" class="image1" />
+
+    <iframe src="https://jaskaran.in" width="100%" height="400px" />
+
+    <form action="" method="post">
+      <div>
+        <label for="firstName" class="red-text">First Name</label>
+        <input type="text" id="firstName" name="firstName" required />
+      </div>
+
+      <div>
+        <label for="firstName">Mobile number</label>
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          value="9530654704"
+          disabled
+          required
+        />
+      </div>
+
+      <div>
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="lastName" required />
+      </div>
+
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+
+      <div>
+        <label for="message">Message</label>
+        <textarea id="message" name="message"></textarea>
+      </div>
+
+      <div>
+        <label for="gender">Gender</label>
+        <input type="radio" id="male" name="gender" value="male" required />
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="female" required />
+        <label for="female">Female</label>
+        <input type="radio" id="other" name="gender" value="other" required />
+        <label for="other">Other</label>
+      </div>
+
+      <div>
+        <label for="country">Country</label>
+        <select id="country" name="country" required>
+          <option value="india">India</option>
+          <option value="usa">USA</option>
+          <option value="uk">UK</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="hobbies">Hobbies</label>
+        <input
+          type="checkbox"
+          id="hobbies"
+          name="hobbies[]"
+          value="reading"
+          required
+        />
+        <label for="reading">Reading</label>
+        <input
+          type="checkbox"
+          id="hobbies"
+          name="hobbies[]"
+          value="reading"
+          checked
+          required
+        />
+        <label for="reading">Swimming</label>
+        <input
+          type="checkbox"
+          id="hobbies"
+          name="hobbies[]"
+          value="swimming"
+          required
+        />
+        <label for="reading">Coding</label>
+      </div>
+
+      <button type="submit">Submit</button>
+      <button type="reset">Reset</button>
+    </form>
+  </body>
+</html>
