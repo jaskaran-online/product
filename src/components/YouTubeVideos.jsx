@@ -2,7 +2,10 @@ import React from "react";
 import useYoutubeVideos from "../hooks/useYoutubeVideos";
 
 export default function YouTubeVideos() {
-  const { videos, page, setPage } = useYoutubeVideos();
+  const { videos, page, setPage, isLoading, error } = useYoutubeVideos();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div>

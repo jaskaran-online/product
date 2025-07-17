@@ -14,14 +14,28 @@ async function getYoutubeVideos(page = 1) {
 }
 
 export default function useYoutubeVideos() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [videos, setVideos] = useState([]);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    getYoutubeVideos(page).then((data) => {
-      setVideos(data.data.data);
-    });
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getYoutubeVideos(page);
+        setVideos(data.data.data);
+      } catch (err) {
+        setError({
+          message: "Error fetching videos",
+          error: err,
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
   }, [page]);
 
-  return { videos, page, setPage };
+  return { videos, page, setPage, isLoading, error };
 }
