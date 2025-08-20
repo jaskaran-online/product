@@ -9,13 +9,16 @@ export default function Contact() {
             Contact Us
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            We'd love to hear from you! Get in touch and let's start a conversation about how we can help you succeed.
+            We'd love to hear from you! Get in touch and let's start a
+            conversation about how we can help you succeed.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">
           <div className="bg-white rounded-2xl shadow-xl p-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Send us a message</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              Send us a message
+            </h2>
 
             <form className="space-y-6">
               <div>
@@ -73,7 +76,9 @@ export default function Contact() {
 
           <div className="space-y-8">
             <div className="bg-white rounded-2xl shadow-xl p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                Get in Touch
+              </h3>
 
               <div className="space-y-4">
                 <div className="flex items-center space-x-4">
@@ -102,14 +107,18 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="font-medium text-gray-900">Address</p>
-                    <p className="text-gray-600">123 Business St, City, State 12345</p>
+                    <p className="text-gray-600">
+                      123 Business St, City, State 12345
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="bg-white rounded-2xl shadow-xl p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Follow Us</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                Follow Us
+              </h3>
               <div className="flex space-x-4">
                 <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer">
                   <span className="text-white text-xl">📘</span>

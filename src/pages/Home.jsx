@@ -7,8 +7,9 @@ export default function Home() {
             Welcome Home
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Discover amazing products and services that will transform your experience.
-            We're here to provide you with the best solutions for your needs.
+            Discover amazing products and services that will transform your
+            experience. We're here to provide you with the best solutions for
+            your needs.
           </p>
         </div>
 
@@ -17,24 +18,39 @@ export default function Home() {
             <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-2xl text-white">🚀</span>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Fast Delivery</h3>
-            <p className="text-gray-600">Get your orders delivered quickly and efficiently to your doorstep.</p>
+            <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              Fast Delivery
+            </h3>
+            <p className="text-gray-600">
+              Get your orders delivered quickly and efficiently to your
+              doorstep.
+            </p>
           </div>
 
           <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition-shadow duration-300">
             <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-2xl text-white">💎</span>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Premium Quality</h3>
-            <p className="text-gray-600">Experience top-notch quality products that exceed your expectations.</p>
+            <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              Premium Quality
+            </h3>
+            <p className="text-gray-600">
+              Experience top-notch quality products that exceed your
+              expectations.
+            </p>
           </div>
 
           <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition-shadow duration-300">
             <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-2xl text-white">🛡️</span>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Secure & Safe</h3>
-            <p className="text-gray-600">Your data and transactions are protected with industry-leading security.</p>
+            <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              Secure & Safe
+            </h3>
+            <p className="text-gray-600">
+              Your data and transactions are protected with industry-leading
+              security.
+            </p>
           </div>
         </div>
 
