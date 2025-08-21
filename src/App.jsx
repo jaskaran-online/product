@@ -1,5 +1,5 @@
 import { useReducer, useState } from "react";
-import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, NavLink, useParams } from "react-router-dom";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -85,6 +85,26 @@ function Home() {
     <div style={{ padding: "20px" }}>
       <h1>Welcome to React Router Tutorial</h1>
       <p>Navigate using the links above to explore different sections!</p>
+      <h2>Lesson 4: Dynamic Routes</h2>
+      <p>Click on a user below to see dynamic routing in action:</p>
+      <ul>
+        <li><Link to="/user/john">John's Profile</Link></li>
+        <li><Link to="/user/jane">Jane's Profile</Link></li>
+        <li><Link to="/user/bob">Bob's Profile</Link></li>
+      </ul>
+    </div>
+  );
+}
+
+function UserProfile() {
+  const { username } = useParams();
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>User Profile</h1>
+      <p>Username: <strong>{username}</strong></p>
+      <p>This is {username}'s profile page. The username is extracted from the URL!</p>
+      <Link to="/">← Back to Home</Link>
     </div>
   );
 }
@@ -132,6 +152,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/counter" element={<Counter />} />
           <Route path="/todo" element={<Todo />} />
+          <Route path="/user/:username" element={<UserProfile />} />
         </Routes>
       </div>
     </BrowserRouter>
