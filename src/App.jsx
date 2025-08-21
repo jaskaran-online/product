@@ -98,6 +98,8 @@ function Home() {
       <p>Try the <Link to="/navigation-demo">Navigation Demo</Link> to see how to navigate programmatically!</p>
       <h2>Lesson 7: Search Parameters</h2>
       <p>Explore <Link to="/search-demo">Search Parameters Demo</Link> to learn about URL query strings!</p>
+      <h2>Lesson 8: Route Protection</h2>
+      <p>Check out <Link to="/protected-demo">Protected Routes Demo</Link> to learn about authentication and route guards!</p>
     </div>
   );
 }
@@ -245,6 +247,188 @@ function SearchParamsDemo() {
   );
 }
 
+// Simple authentication context
+const AuthContext = React.createContext(null);
+
+function AuthProvider({ children }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+
+  const login = (username, password) => {
+    // Simple demo authentication
+    if (username === 'admin' && password === 'password') {
+      setIsAuthenticated(true);
+      setUser({ name: username, role: 'admin' });
+      return true;
+    }
+    return false;
+  };
+
+  const logout = () => {
+    setIsAuthenticated(false);
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+function useAuth() {
+  return React.useContext(AuthContext);
+}
+
+function ProtectedRoute({ children }) {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  if (!isAuthenticated) {
+    return (
+      <div style={{ padding: "20px", textAlign: "center" }}>
+        <h2>Access Denied</h2>
+        <p>You need to be logged in to view this page.</p>
+        <button onClick={() => navigate('/login-demo')} style={{ margin: "10px" }}>
+          Go to Login
+        </button>
+        <button onClick={() => navigate('/')} style={{ margin: "10px" }}>
+          Go to Home
+        </button>
+      </div>
+    );
+  }
+
+  return children;
+}
+
+function LoginDemo() {
+  const { login, logout, isAuthenticated, user } = useAuth();
+  const navigate = useNavigate();
+  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [error, setError] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (login(credentials.username, credentials.password)) {
+      navigate('/protected-demo/admin');
+    } else {
+      setError('Invalid credentials. Try: admin / password');
+    }
+  };
+
+  if (isAuthenticated) {
+    return (
+      <div style={{ padding: "20px" }}>
+        <h1>Welcome, {user.name}!</h1>
+        <p>You are logged in as: {user.role}</p>
+        <button onClick={() => navigate('/protected-demo/admin')} style={{ margin: "10px" }}>
+          Go to Admin Panel
+        </button>
+        <button onClick={logout} style={{ margin: "10px" }}>
+          Logout
+        </button>
+        <p style={{ marginTop: "20px" }}>
+          <Link to="/">← Back to Home</Link>
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ padding: "20px", maxWidth: "400px", margin: "0 auto" }}>
+      <h1>Login Demo</h1>
+      <p>This demonstrates authentication for route protection.</p>
+
+      <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: "15px" }}>
+          <label>
+            Username:
+            <input
+              type="text"
+              value={credentials.username}
+              onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
+              style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+              placeholder="admin"
+            />
+          </label>
+        </div>
+        <div style={{ marginBottom: "15px" }}>
+          <label>
+            Password:
+            <input
+              type="password"
+              value={credentials.password}
+              onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+              style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+              placeholder="password"
+            />
+          </label>
+        </div>
+        {error && <p style={{ color: "red", marginBottom: "15px" }}>{error}</p>}
+        <button type="submit" style={{ width: "100%", padding: "10px" }}>
+          Login
+        </button>
+      </form>
+
+      <p style={{ marginTop: "20px" }}>
+        <Link to="/">← Back to Home</Link>
+      </p>
+    </div>
+  );
+}
+
+function ProtectedRouteDemo() {
+  const { isAuthenticated, user } = useAuth();
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>Protected Routes Demo</h1>
+      <p>This page demonstrates route protection based on authentication status.</p>
+
+      <div style={{ backgroundColor: isAuthenticated ? "#d4edda" : "#f8d7da", padding: "15px", borderRadius: "5px", marginBottom: "20px" }}>
+        <h3>Authentication Status:</h3>
+        <p><strong>Logged in:</strong> {isAuthenticated ? 'Yes' : 'No'}</p>
+        {isAuthenticated && (
+          <>
+            <p><strong>User:</strong> {user.name}</p>
+            <p><strong>Role:</strong> {user.role}</p>
+          </>
+        )}
+      </div>
+
+      {isAuthenticated ? (
+        <div>
+          <h3>Protected Content:</h3>
+          <p>Welcome to the admin panel! Only authenticated users can see this.</p>
+          <div style={{ backgroundColor: "#e7f3ff", padding: "15px", borderRadius: "5px" }}>
+            <h4>Admin Dashboard</h4>
+            <p>Here you would see sensitive information, user management tools, etc.</p>
+            <ul>
+              <li>Manage users</li>
+              <li>View analytics</li>
+              <li>System settings</li>
+            </ul>
+          </div>
+        </div>
+      ) : (
+        <div style={{ textAlign: "center" }}>
+          <p>You need to login to see the protected content.</p>
+          <Link to="/login-demo" style={{ display: "inline-block", margin: "10px", padding: "10px 20px", backgroundColor: "#007bff", color: "white", textDecoration: "none", borderRadius: "5px" }}>
+            Login
+          </Link>
+        </div>
+      )}
+
+      <p style={{ marginTop: "20px" }}>
+        <Link to="/">← Back to Home</Link>
+      </p>
+    </div>
+  );
+}
+
 function Dashboard() {
   return (
     <div style={{ padding: "20px" }}>
@@ -348,57 +532,61 @@ function UserProfile() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <div>
-        <nav style={{ padding: "10px", backgroundColor: "#f0f0f0" }}>
-          <NavLink
-            to="/"
-            style={({ isActive }) => ({
-              marginRight: "10px",
-              color: isActive ? "blue" : "black",
-              textDecoration: "none",
-              fontWeight: isActive ? "bold" : "normal"
-            })}
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/counter"
-            style={({ isActive }) => ({
-              marginRight: "10px",
-              color: isActive ? "blue" : "black",
-              textDecoration: "none",
-              fontWeight: isActive ? "bold" : "normal"
-            })}
-          >
-            Counter
-          </NavLink>
-          <NavLink
-            to="/todo"
-            style={({ isActive }) => ({
-              color: isActive ? "blue" : "black",
-              textDecoration: "none",
-              fontWeight: isActive ? "bold" : "normal"
-            })}
-          >
-            Todo
-          </NavLink>
-        </nav>
+    <AuthProvider>
+      <BrowserRouter>
+        <div>
+          <nav style={{ padding: "10px", backgroundColor: "#f0f0f0" }}>
+            <NavLink
+              to="/"
+              style={({ isActive }) => ({
+                marginRight: "10px",
+                color: isActive ? "blue" : "black",
+                textDecoration: "none",
+                fontWeight: isActive ? "bold" : "normal"
+              })}
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/counter"
+              style={({ isActive }) => ({
+                marginRight: "10px",
+                color: isActive ? "blue" : "black",
+                textDecoration: "none",
+                fontWeight: isActive ? "bold" : "normal"
+              })}
+            >
+              Counter
+            </NavLink>
+            <NavLink
+              to="/todo"
+              style={({ isActive }) => ({
+                color: isActive ? "blue" : "black",
+                textDecoration: "none",
+                fontWeight: isActive ? "bold" : "normal"
+              })}
+            >
+              Todo
+            </NavLink>
+          </nav>
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/counter" element={<Counter />} />
-          <Route path="/todo" element={<Todo />} />
-          <Route path="/user/:username" element={<UserProfile />} />
-          <Route path="/navigation-demo" element={<NavigationDemo />} />
-          <Route path="/search-demo" element={<SearchParamsDemo />} />
-          <Route path="/dashboard" element={<Dashboard />}>
-            <Route index element={<DashboardOverview />} />
-            <Route path="profile" element={<DashboardProfile />} />
-            <Route path="settings" element={<DashboardSettings />} />
-          </Route>
-        </Routes>
-      </div>
-    </BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/counter" element={<Counter />} />
+            <Route path="/todo" element={<Todo />} />
+            <Route path="/user/:username" element={<UserProfile />} />
+            <Route path="/navigation-demo" element={<NavigationDemo />} />
+            <Route path="/search-demo" element={<SearchParamsDemo />} />
+            <Route path="/login-demo" element={<LoginDemo />} />
+            <Route path="/protected-demo" element={<ProtectedRouteDemo />} />
+            <Route path="/dashboard" element={<Dashboard />}>
+              <Route index element={<DashboardOverview />} />
+              <Route path="profile" element={<DashboardProfile />} />
+              <Route path="settings" element={<DashboardSettings />} />
+            </Route>
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
