@@ -1,4 +1,5 @@
 import { useReducer, useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -12,15 +13,14 @@ function reducer(state, action) {
 }
 
 function Counter() {
-  // const [count, setCount] = useState(0);
   let initialValue = { count: 0 };
-
   const [state, dispatch] = useReducer(reducer, initialValue);
   return (
-    <div>
-      Count: {state.count}
+    <div style={{ padding: "20px" }}>
+      <h1>Counter App</h1>
+      <p>Count: {state.count}</p>
       <button onClick={() => dispatch({ type: "increment" })}>Increment</button>
-      <button onClick={() => dispatch({ type: "decrement" })}>Decrement</button>
+      <button onClick={() => dispatch({ type: "decrement" }}>Decrement</button>
     </div>
   );
 }
@@ -47,18 +47,17 @@ function Todo() {
   const [todosState, todoDispatch] = useReducer(todoReducer, todos);
 
   return (
-    <div>
-      <div>
-        <ul>
-          {todosState.length > 0 && (
-            <>
-              {todosState.map((todo, index) => (
-                <li key={index}>{todo.title}</li>
-              ))}
-            </>
-          )}
-        </ul>
-      </div>
+    <div style={{ padding: "20px" }}>
+      <h1>Todo App</h1>
+      <ul>
+        {todosState.length > 0 && (
+          <>
+            {todosState.map((todo, index) => (
+              <li key={index}>{todo.title}</li>
+            ))}
+          </>
+        )}
+      </ul>
 
       <div>
         <label htmlFor="todo">Todo</label>
@@ -81,11 +80,31 @@ function Todo() {
   );
 }
 
+function Home() {
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>Welcome to React Router Tutorial</h1>
+      <p>Navigate using the links above to explore different sections!</p>
+    </div>
+  );
+}
+
 export default function App() {
   return (
-    <div>
-      {/* <Counter /> */}
-      <Todo />
-    </div>
+    <BrowserRouter>
+      <div>
+        <nav style={{ padding: "10px", backgroundColor: "#f0f0f0" }}>
+          <a href="/" style={{ marginRight: "10px" }}>Home</a>
+          <a href="/counter" style={{ marginRight: "10px" }}>Counter</a>
+          <a href="/todo">Todo</a>
+        </nav>
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/counter" element={<Counter />} />
+          <Route path="/todo" element={<Todo />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
