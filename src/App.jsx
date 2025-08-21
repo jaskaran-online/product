@@ -1,5 +1,5 @@
 import { useReducer, useState } from "react";
-import { BrowserRouter, Routes, Route, Link, NavLink, useParams, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, NavLink, useParams, Outlet, useNavigate } from "react-router-dom";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -94,6 +94,68 @@ function Home() {
       </ul>
       <h2>Lesson 5: Nested Routes</h2>
       <p>Visit the <Link to="/dashboard">Dashboard</Link> to see nested routing with Outlet!</p>
+      <h2>Lesson 6: Programmatic Navigation</h2>
+      <p>Try the <Link to="/navigation-demo">Navigation Demo</Link> to see how to navigate programmatically!</p>
+    </div>
+  );
+}
+
+function NavigationDemo() {
+  const navigate = useNavigate();
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
+  const handleGoBack = () => {
+    navigate(-1); // Go back one page in history
+  };
+
+  const handleGoForward = () => {
+    navigate(1); // Go forward one page in history
+  };
+
+  const handleReplace = () => {
+    navigate('/todo', { replace: true }); // Replace current history entry
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>Programmatic Navigation Demo</h1>
+      <p>This page demonstrates how to navigate programmatically using the useNavigate hook.</p>
+
+      <h3>Basic Navigation:</h3>
+      <button onClick={() => handleNavigation('/counter')} style={{ margin: "5px" }}>
+        Go to Counter
+      </button>
+      <button onClick={() => handleNavigation('/todo')} style={{ margin: "5px" }}>
+        Go to Todo
+      </button>
+      <button onClick={() => handleNavigation('/dashboard')} style={{ margin: "5px" }}>
+        Go to Dashboard
+      </button>
+
+      <h3>History Navigation:</h3>
+      <button onClick={handleGoBack} style={{ margin: "5px" }}>
+        Go Back
+      </button>
+      <button onClick={handleGoForward} style={{ margin: "5px" }}>
+        Go Forward
+      </button>
+
+      <h3>Advanced Navigation:</h3>
+      <button onClick={handleReplace} style={{ margin: "5px" }}>
+        Replace with Todo (no back button)
+      </button>
+
+      <h3>With State:</h3>
+      <button onClick={() => navigate('/user/alice', { state: { from: 'navigation-demo' } })} style={{ margin: "5px" }}>
+        Go to Alice's Profile with State
+      </button>
+
+      <p style={{ marginTop: "20px" }}>
+        <Link to="/">← Back to Home</Link>
+      </p>
     </div>
   );
 }
@@ -176,13 +238,25 @@ function DashboardSettings() {
 
 function UserProfile() {
   const { username } = useParams();
+  const navigate = useNavigate();
 
   return (
     <div style={{ padding: "20px" }}>
       <h1>User Profile</h1>
       <p>Username: <strong>{username}</strong></p>
       <p>This is {username}'s profile page. The username is extracted from the URL!</p>
-      <Link to="/">← Back to Home</Link>
+
+      <h3>Profile Actions:</h3>
+      <button onClick={() => navigate('/', { state: { from: `user-${username}` } })} style={{ margin: "5px" }}>
+        Go Home with State
+      </button>
+      <button onClick={() => navigate(-1)} style={{ margin: "5px" }}>
+        Go Back
+      </button>
+
+      <p style={{ marginTop: "20px" }}>
+        <Link to="/">← Back to Home</Link>
+      </p>
     </div>
   );
 }
@@ -231,6 +305,7 @@ export default function App() {
           <Route path="/counter" element={<Counter />} />
           <Route path="/todo" element={<Todo />} />
           <Route path="/user/:username" element={<UserProfile />} />
+          <Route path="/navigation-demo" element={<NavigationDemo />} />
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<DashboardOverview />} />
             <Route path="profile" element={<DashboardProfile />} />
