@@ -102,6 +102,8 @@ function Home() {
       <p>Check out <Link to="/protected-demo">Protected Routes Demo</Link> to learn about authentication and route guards!</p>
       <h2>Lesson 9: Error Handling</h2>
       <p>Explore <Link to="/error-demo">Error Boundaries Demo</Link> to learn about error handling and 404 pages!</p>
+      <h2>Lesson 10: Loading States</h2>
+      <p>Check out <Link to="/loading-demo">Loading States Demo</Link> to learn about async operations and loading UI!</p>
     </div>
   );
 }
@@ -556,6 +558,196 @@ function NotFound() {
   );
 }
 
+// Loading Spinner Component
+function LoadingSpinner() {
+  return (
+    <div style={{ textAlign: "center", padding: "20px" }}>
+      <div style={{
+        border: "4px solid #f3f3f3",
+        borderTop: "4px solid #3498db",
+        borderRadius: "50%",
+        width: "40px",
+        height: "40px",
+        animation: "spin 1s linear infinite",
+        margin: "0 auto 10px"
+      }}></div>
+      <p>Loading...</p>
+      <style>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+// Async Data Component
+function AsyncDataComponent() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchData = async (type) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Simulate API call with different response times
+      const delay = type === 'slow' ? 3000 : type === 'fast' ? 500 : 1500;
+
+      await new Promise(resolve => setTimeout(resolve, delay));
+
+      // Simulate different types of data
+      const mockData = {
+        users: [
+          { id: 1, name: 'Alice Johnson', email: 'alice@example.com' },
+          { id: 2, name: 'Bob Smith', email: 'bob@example.com' },
+          { id: 3, name: 'Charlie Brown', email: 'charlie@example.com' }
+        ],
+        posts: [
+          { id: 1, title: 'Learn React', content: 'React is awesome!' },
+          { id: 2, title: 'Master React Router', content: 'Routing made easy!' },
+          { id: 3, title: 'Build Great UIs', content: 'User experience matters!' }
+        ],
+        products: [
+          { id: 1, name: 'Laptop', price: 999 },
+          { id: 2, name: 'Mouse', price: 25 },
+          { id: 3, name: 'Keyboard', price: 75 }
+        ]
+      };
+
+      setData({ type, items: mockData[type] });
+    } catch (err) {
+      setError('Failed to fetch data. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div style={{ marginBottom: "20px" }}>
+      <h3>Async Data Loading</h3>
+
+      <div style={{ marginBottom: "15px" }}>
+        <button onClick={() => fetchData('users')} style={{ marginRight: "10px" }}>
+          Load Users (1.5s)
+        </button>
+        <button onClick={() => fetchData('posts')} style={{ marginRight: "10px" }}>
+          Load Posts (1.5s)
+        </button>
+        <button onClick={() => fetchData('products')} style={{ marginRight: "10px" }}>
+          Load Products (1.5s)
+        </button>
+        <button onClick={() => fetchData('slow')} style={{ marginRight: "10px" }}>
+          Load Slow (3s)
+        </button>
+        <button onClick={() => fetchData('fast')} style={{ marginRight: "10px" }}>
+          Load Fast (0.5s)
+        </button>
+      </div>
+
+      {loading && <LoadingSpinner />}
+
+      {error && (
+        <div style={{ color: "red", padding: "10px", backgroundColor: "#ffebee", borderRadius: "5px" }}>
+          {error}
+        </div>
+      )}
+
+      {data && !loading && (
+        <div style={{ backgroundColor: "#e8f5e8", padding: "15px", borderRadius: "5px" }}>
+          <h4>{data.type.toUpperCase()} Data Loaded Successfully!</h4>
+          <pre style={{ backgroundColor: "#f8f9fa", padding: "10px", borderRadius: "3px", overflow: "auto" }}>
+            {JSON.stringify(data.items, null, 2)}
+          </pre>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Navigation with Loading Component
+function NavigationWithLoading() {
+  const [isNavigating, setIsNavigating] = useState(false);
+  const navigate = useNavigate();
+
+  const handleDelayedNavigation = async (path) => {
+    setIsNavigating(true);
+    // Simulate some async operation before navigation
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setIsNavigating(false);
+    navigate(path);
+  };
+
+  return (
+    <div style={{ marginBottom: "20px" }}>
+      <h3>Navigation with Loading States</h3>
+      <p>These buttons simulate async operations before navigation.</p>
+
+      <button
+        onClick={() => handleDelayedNavigation('/counter')}
+        disabled={isNavigating}
+        style={{ margin: "5px", opacity: isNavigating ? 0.6 : 1 }}
+      >
+        Go to Counter (with delay)
+      </button>
+      <button
+        onClick={() => handleDelayedNavigation('/dashboard')}
+        disabled={isNavigating}
+        style={{ margin: "5px", opacity: isNavigating ? 0.6 : 1 }}
+      >
+        Go to Dashboard (with delay)
+      </button>
+
+      {isNavigating && (
+        <div style={{ marginTop: "10px" }}>
+          <LoadingSpinner />
+          <p>Preparing navigation...</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Main Loading States Demo Component
+function LoadingStatesDemo() {
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>Loading States Demo</h1>
+      <p>This page demonstrates various loading states and async operations in React Router applications.</p>
+
+      <div style={{ backgroundColor: "#e7f3ff", padding: "15px", borderRadius: "5px", marginBottom: "20px" }}>
+        <h3>Why Loading States Matter</h3>
+        <ul>
+          <li>Provide feedback to users during async operations</li>
+          <li>Prevent multiple submissions of forms</li>
+          <li>Improve perceived performance</li>
+          <li>Handle errors gracefully</li>
+        </ul>
+      </div>
+
+      <AsyncDataComponent />
+      <NavigationWithLoading />
+
+      <div style={{ backgroundColor: "#f0f8ff", padding: "15px", borderRadius: "5px", marginBottom: "20px" }}>
+        <h3>Loading State Best Practices</h3>
+        <ul>
+          <li>Always show loading indicators for operations > 100ms</li>
+          <li>Disable buttons during loading to prevent double submissions</li>
+          <li>Provide clear error messages and retry options</li>
+          <li>Consider skeleton screens for better UX</li>
+          <li>Use consistent loading patterns throughout your app</li>
+        </ul>
+      </div>
+
+      <p style={{ marginTop: "20px" }}>
+        <Link to="/">← Back to Home</Link>
+      </p>
+    </div>
+  );
+}
+
 function Dashboard() {
   return (
     <div style={{ padding: "20px" }}>
@@ -708,6 +900,7 @@ export default function App() {
               <Route path="/login-demo" element={<LoginDemo />} />
               <Route path="/protected-demo" element={<ProtectedRouteDemo />} />
               <Route path="/error-demo" element={<ErrorDemo />} />
+              <Route path="/loading-demo" element={<LoadingStatesDemo />} />
               <Route path="/dashboard" element={<Dashboard />}>
                 <Route index element={<DashboardOverview />} />
                 <Route path="profile" element={<DashboardProfile />} />
