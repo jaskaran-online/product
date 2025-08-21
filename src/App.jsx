@@ -100,6 +100,8 @@ function Home() {
       <p>Explore <Link to="/search-demo">Search Parameters Demo</Link> to learn about URL query strings!</p>
       <h2>Lesson 8: Route Protection</h2>
       <p>Check out <Link to="/protected-demo">Protected Routes Demo</Link> to learn about authentication and route guards!</p>
+      <h2>Lesson 9: Error Handling</h2>
+      <p>Explore <Link to="/error-demo">Error Boundaries Demo</Link> to learn about error handling and 404 pages!</p>
     </div>
   );
 }
@@ -429,6 +431,131 @@ function ProtectedRouteDemo() {
   );
 }
 
+// Error Boundary Component
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('Error caught by boundary:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: "20px", textAlign: "center", backgroundColor: "#f8d7da", borderRadius: "5px", margin: "20px" }}>
+          <h2>🚨 Oops! Something went wrong</h2>
+          <p>An error occurred while rendering this component.</p>
+          <details style={{ marginTop: "15px", textAlign: "left" }}>
+            <summary>Error Details</summary>
+            <pre style={{ backgroundColor: "#f5f5f5", padding: "10px", borderRadius: "3px", overflow: "auto" }}>
+              {this.state.error.toString()}
+            </pre>
+          </details>
+          <button
+            onClick={() => this.setState({ hasError: false, error: null })}
+            style={{ marginTop: "15px", padding: "10px 20px" }}
+          >
+            Try Again
+          </button>
+          <p style={{ marginTop: "20px" }}>
+            <Link to="/">← Go to Home</Link>
+          </p>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+// Component that throws an error for testing
+function ErrorDemo() {
+  const [shouldError, setShouldError] = useState(false);
+
+  if (shouldError) {
+    throw new Error('This is a demo error to test error boundaries!');
+  }
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>Error Boundary Demo</h1>
+      <p>This page demonstrates error handling with React Error Boundaries.</p>
+
+      <div style={{ backgroundColor: "#fff3cd", padding: "15px", borderRadius: "5px", marginBottom: "20px" }}>
+        <h3>⚠️ Error Testing Zone</h3>
+        <p>Click the button below to intentionally throw an error and see how the error boundary handles it.</p>
+        <button
+          onClick={() => setShouldError(true)}
+          style={{ padding: "10px 20px", backgroundColor: "#dc3545", color: "white", border: "none", borderRadius: "5px" }}
+        >
+          🚨 Trigger Error
+        </button>
+      </div>
+
+      <div style={{ backgroundColor: "#d1ecf1", padding: "15px", borderRadius: "5px" }}>
+        <h3>What are Error Boundaries?</h3>
+        <ul>
+          <li>They catch JavaScript errors in the component tree</li>
+          <li>Prevent the entire app from crashing</li>
+          <li>Display fallback UI when errors occur</li>
+          <li>Help with debugging and error reporting</li>
+        </ul>
+      </div>
+
+      <p style={{ marginTop: "20px" }}>
+        <Link to="/">← Back to Home</Link>
+      </p>
+    </div>
+  );
+}
+
+// 404 Not Found Component
+function NotFound() {
+  return (
+    <div style={{ padding: "20px", textAlign: "center" }}>
+      <h1>404 - Page Not Found</h1>
+      <p>The page you're looking for doesn't exist.</p>
+
+      <div style={{ margin: "40px 0" }}>
+        <h2>🔍 Possible reasons:</h2>
+        <ul style={{ textAlign: "left", maxWidth: "400px", margin: "0 auto" }}>
+          <li>The URL might be misspelled</li>
+          <li>The page might have been moved or deleted</li>
+          <li>You might not have permission to access this page</li>
+        </ul>
+      </div>
+
+      <div style={{ margin: "40px 0" }}>
+        <h3>Try these helpful links:</h3>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+          <Link to="/" style={{ display: "inline-block", padding: "10px 20px", backgroundColor: "#007bff", color: "white", textDecoration: "none", borderRadius: "5px" }}>
+            🏠 Go to Home
+          </Link>
+          <Link to="/counter" style={{ display: "inline-block", padding: "10px 20px", backgroundColor: "#28a745", color: "white", textDecoration: "none", borderRadius: "5px" }}>
+            🔢 Try Counter
+          </Link>
+          <Link to="/dashboard" style={{ display: "inline-block", padding: "10px 20px", backgroundColor: "#17a2b8", color: "white", textDecoration: "none", borderRadius: "5px" }}>
+            📊 Visit Dashboard
+          </Link>
+        </div>
+      </div>
+
+      <div style={{ marginTop: "40px", padding: "20px", backgroundColor: "#f8f9fa", borderRadius: "5px" }}>
+        <h3>💡 Pro Tip</h3>
+        <p>This 404 page is created using a catch-all route (<code>*</code>) in React Router.</p>
+        <p>It ensures users always see a helpful page instead of a blank screen.</p>
+      </div>
+    </div>
+  );
+}
+
 function Dashboard() {
   return (
     <div style={{ padding: "20px" }}>
@@ -570,21 +697,25 @@ export default function App() {
             </NavLink>
           </nav>
 
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/counter" element={<Counter />} />
-            <Route path="/todo" element={<Todo />} />
-            <Route path="/user/:username" element={<UserProfile />} />
-            <Route path="/navigation-demo" element={<NavigationDemo />} />
-            <Route path="/search-demo" element={<SearchParamsDemo />} />
-            <Route path="/login-demo" element={<LoginDemo />} />
-            <Route path="/protected-demo" element={<ProtectedRouteDemo />} />
-            <Route path="/dashboard" element={<Dashboard />}>
-              <Route index element={<DashboardOverview />} />
-              <Route path="profile" element={<DashboardProfile />} />
-              <Route path="settings" element={<DashboardSettings />} />
-            </Route>
-          </Routes>
+          <ErrorBoundary>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/counter" element={<Counter />} />
+              <Route path="/todo" element={<Todo />} />
+              <Route path="/user/:username" element={<UserProfile />} />
+              <Route path="/navigation-demo" element={<NavigationDemo />} />
+              <Route path="/search-demo" element={<SearchParamsDemo />} />
+              <Route path="/login-demo" element={<LoginDemo />} />
+              <Route path="/protected-demo" element={<ProtectedRouteDemo />} />
+              <Route path="/error-demo" element={<ErrorDemo />} />
+              <Route path="/dashboard" element={<Dashboard />}>
+                <Route index element={<DashboardOverview />} />
+                <Route path="profile" element={<DashboardProfile />} />
+                <Route path="settings" element={<DashboardSettings />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </ErrorBoundary>
         </div>
       </BrowserRouter>
     </AuthProvider>
