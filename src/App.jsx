@@ -1,5 +1,5 @@
 import { useReducer, useState } from "react";
-import { BrowserRouter, Routes, Route, Link, NavLink, useParams, Outlet, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, NavLink, useParams, Outlet, useNavigate, useSearchParams } from "react-router-dom";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -96,6 +96,8 @@ function Home() {
       <p>Visit the <Link to="/dashboard">Dashboard</Link> to see nested routing with Outlet!</p>
       <h2>Lesson 6: Programmatic Navigation</h2>
       <p>Try the <Link to="/navigation-demo">Navigation Demo</Link> to see how to navigate programmatically!</p>
+      <h2>Lesson 7: Search Parameters</h2>
+      <p>Explore <Link to="/search-demo">Search Parameters Demo</Link> to learn about URL query strings!</p>
     </div>
   );
 }
@@ -151,6 +153,89 @@ function NavigationDemo() {
       <h3>With State:</h3>
       <button onClick={() => navigate('/user/alice', { state: { from: 'navigation-demo' } })} style={{ margin: "5px" }}>
         Go to Alice's Profile with State
+      </button>
+
+      <p style={{ marginTop: "20px" }}>
+        <Link to="/">← Back to Home</Link>
+      </p>
+    </div>
+  );
+}
+
+function SearchParamsDemo() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Get current values from URL
+  const name = searchParams.get('name') || '';
+  const age = searchParams.get('age') || '';
+  const city = searchParams.get('city') || '';
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const params = new URLSearchParams();
+
+    for (let [key, value] of formData.entries()) {
+      if (value.trim()) {
+        params.set(key, value);
+      }
+    }
+
+    setSearchParams(params);
+  };
+
+  const clearAll = () => {
+    setSearchParams(new URLSearchParams());
+  };
+
+  const setDefaults = () => {
+    setSearchParams({ name: 'John', age: '25', city: 'New York' });
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>Search Parameters Demo</h1>
+      <p>This page demonstrates how to work with URL query parameters using useSearchParams.</p>
+
+      <h3>Current URL Parameters:</h3>
+      <div style={{ backgroundColor: "#f5f5f5", padding: "10px", marginBottom: "20px" }}>
+        <p><strong>Name:</strong> {name || 'Not set'}</p>
+        <p><strong>Age:</strong> {age || 'Not set'}</p>
+        <p><strong>City:</strong> {city || 'Not set'}</p>
+        <p><strong>Full URL:</strong> {window.location.href}</p>
+      </div>
+
+      <h3>Update Parameters:</h3>
+      <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
+        <div style={{ marginBottom: "10px" }}>
+          <label>
+            Name: <input name="name" defaultValue={name} style={{ marginLeft: "5px" }} />
+          </label>
+        </div>
+        <div style={{ marginBottom: "10px" }}>
+          <label>
+            Age: <input name="age" defaultValue={age} style={{ marginLeft: "5px" }} />
+          </label>
+        </div>
+        <div style={{ marginBottom: "10px" }}>
+          <label>
+            City: <input name="city" defaultValue={city} style={{ marginLeft: "5px" }} />
+          </label>
+        </div>
+        <button type="submit" style={{ marginRight: "10px" }}>Update URL</button>
+        <button type="button" onClick={clearAll} style={{ marginRight: "10px" }}>Clear All</button>
+        <button type="button" onClick={setDefaults}>Set Defaults</button>
+      </form>
+
+      <h3>Quick Actions:</h3>
+      <button onClick={() => setSearchParams({ name: 'Alice' })} style={{ margin: "5px" }}>
+        Set Name Only
+      </button>
+      <button onClick={() => setSearchParams({ city: 'San Francisco' })} style={{ margin: "5px" }}>
+        Set City Only
+      </button>
+      <button onClick={() => setSearchParams({})} style={{ margin: "5px" }}>
+        Remove All
       </button>
 
       <p style={{ marginTop: "20px" }}>
@@ -306,6 +391,7 @@ export default function App() {
           <Route path="/todo" element={<Todo />} />
           <Route path="/user/:username" element={<UserProfile />} />
           <Route path="/navigation-demo" element={<NavigationDemo />} />
+          <Route path="/search-demo" element={<SearchParamsDemo />} />
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<DashboardOverview />} />
             <Route path="profile" element={<DashboardProfile />} />
