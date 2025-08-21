@@ -1,5 +1,5 @@
 import { useReducer, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -94,9 +94,38 @@ export default function App() {
     <BrowserRouter>
       <div>
         <nav style={{ padding: "10px", backgroundColor: "#f0f0f0" }}>
-          <a href="/" style={{ marginRight: "10px" }}>Home</a>
-          <a href="/counter" style={{ marginRight: "10px" }}>Counter</a>
-          <a href="/todo">Todo</a>
+          <NavLink
+            to="/"
+            style={({ isActive }) => ({
+              marginRight: "10px",
+              color: isActive ? "blue" : "black",
+              textDecoration: "none",
+              fontWeight: isActive ? "bold" : "normal"
+            })}
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/counter"
+            style={({ isActive }) => ({
+              marginRight: "10px",
+              color: isActive ? "blue" : "black",
+              textDecoration: "none",
+              fontWeight: isActive ? "bold" : "normal"
+            })}
+          >
+            Counter
+          </NavLink>
+          <NavLink
+            to="/todo"
+            style={({ isActive }) => ({
+              color: isActive ? "blue" : "black",
+              textDecoration: "none",
+              fontWeight: isActive ? "bold" : "normal"
+            })}
+          >
+            Todo
+          </NavLink>
         </nav>
 
         <Routes>
