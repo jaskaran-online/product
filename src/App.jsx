@@ -1,59 +1,48 @@
-import { useReducer, useState } from "react";
+import { useState } from "react";
 import { BrowserRouter, Routes, Route, Link, NavLink, useParams, Outlet, useNavigate, useSearchParams } from "react-router-dom";
 
-function reducer(state, action) {
-  switch (action.type) {
-    case "increment":
-      return { count: state.count + 1 };
-    case "decrement":
-      return { count: state.count - 1 };
-    default:
-      return state;
-  }
-}
-
 function Counter() {
-  let initialValue = { count: 0 };
-  const [state, dispatch] = useReducer(reducer, initialValue);
+  const [count, setCount] = useState(0);
   return (
     <div style={{ padding: "20px" }}>
       <h1>Counter App</h1>
-      <p>Count: {state.count}</p>
-      <button onClick={() => dispatch({ type: "increment" })}>Increment</button>
-      <button onClick={() => dispatch({ type: "decrement" }}>Decrement</button>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={() => setCount(count - 1)}>Decrement</button>
     </div>
   );
 }
 
-function todoReducer(state, action) {
-  if (action.type === "ADD_TODO") {
-    return [...state, { id: state.length, title: action.payload }];
-  } else if (action.type === "REMOVE_TODO") {
-    return [state.pop()];
-  } else {
-    return state;
-  }
-}
-
 function Todo() {
   const [input, setInput] = useState("");
-  const todos = [
+  const [todos, setTodos] = useState([
     {
       id: 1,
       title: "jaskaran",
     },
-  ];
+  ]);
 
-  const [todosState, todoDispatch] = useReducer(todoReducer, todos);
+  const addTodo = () => {
+    if (input.trim()) {
+      setTodos([...todos, { id: Date.now(), title: input }]);
+      setInput("");
+    }
+  };
+
+  const removeTodo = () => {
+    if (todos.length > 0) {
+      setTodos(todos.slice(0, -1));
+    }
+  };
 
   return (
     <div style={{ padding: "20px" }}>
       <h1>Todo App</h1>
       <ul>
-        {todosState.length > 0 && (
+        {todos.length > 0 && (
           <>
-            {todosState.map((todo, index) => (
-              <li key={index}>{todo.title}</li>
+            {todos.map((todo) => (
+              <li key={todo.id}>{todo.title}</li>
             ))}
           </>
         )}
@@ -68,14 +57,8 @@ function Todo() {
         />
       </div>
 
-      <button
-        onClick={() => todoDispatch({ type: "ADD_TODO", payload: input })}
-      >
-        Add Todo
-      </button>
-      <button onClick={() => todoDispatch({ type: "REMOVE_TODO" })}>
-        Remove Todo
-      </button>
+      <button onClick={addTodo}>Add Todo</button>
+      <button onClick={removeTodo}>Remove Last Todo</button>
     </div>
   );
 }
